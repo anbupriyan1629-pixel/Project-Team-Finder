@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Project Team Finder</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Project Team Finder
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#students">
+                Students
+            </a>
+
+            <a href="#projects">
+                Projects
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section
+        class="hero"
+        id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Find Your Perfect
+                <span>Project Team</span>
+            </h1>
+
+            <p>
+                Connect with students, discover projects
+                and build your dream team.
+            </p>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <select id="searchType">
+
+                    <option value="students">
+                        Students
+                    </option>
+
+                    <option value="projects">
+                        Projects
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search students..."
+                    onkeyup="handleSearch()"
+                >
+
+
+                <button
+                    onclick="handleSearch()">
+
+                    Search
+
+                </button>
+
+            </div>
+
+            <div class="filter-box">
+                <input
+                    type="text"
+                    id="filterSkill"
+                    list="skillOptions"
+                    placeholder="Skill or language"
+                    aria-label="Filter by skill or programming language">
+                <datalist id="skillOptions">
+                    <option value="Java">
+                    <option value="Python">
+                    <option value="C++">
+                    <option value="JavaScript">
+                    <option value="TypeScript">
+                    <option value="SQL">
+                    <option value="React">
+                    <option value="Node.js">
+                    <option value="AI/ML">
+                </datalist>
+
+                <input
+                    type="text"
+                    id="filterAvailability"
+                    list="availabilityOptions"
+                    placeholder="Availability (students)"
+                    aria-label="Filter students by availability">
+                <datalist id="availabilityOptions">
+                    <option value="Morning">
+                    <option value="Afternoon">
+                    <option value="Evening">
+                    <option value="Weekends">
+                    <option value="Full Time">
+                    <option value="Part Time">
+                    <option value="Flexible">
+                </datalist>
+
+                <button type="button" onclick="filterMatches()">Find / Filter</button>
+                <button type="button" class="show-all-btn" onclick="showAllResults()">Show All</button>
+                <small>Availability filters students; projects are matched by required skill.</small>
+            </div>
+
+
+            <!-- HERO BUTTONS -->
+
+            <div class="hero-buttons">
+
+                <button
+                    onclick="document
+                    .getElementById('students')
+                    .scrollIntoView()">
+
+                    Find Team Members
+
+                </button>
+
+
+                <button
+                    onclick="document
+                    .getElementById('projects')
+                    .scrollIntoView()">
+
+                    View Projects
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <h2 id="studentCount">
+                0
+            </h2>
+
+            <p>
+                Students
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h2 id="projectCount">
+                0
+            </h2>
+
+            <p>
+                Projects
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h2>
+                24/7
+            </h2>
+
+            <p>
+                Available
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STUDENTS ================= -->
+
+    <section
+        class="section"
+        id="students">
+
+        <div class="section-header">
+
+            <h2>
+                Students
+            </h2>
+
+            <p>
+                Find students based on their skills
+                and availability.
+            </p>
+
+        </div>
+
+
+        <!-- ADD STUDENT -->
+
+        <div class="form-card">
+
+            <h3>
+                Add Student
+            </h3>
+
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Student Name"
+            >
+
+
+            <input
+                type="email"
+                id="studentEmail"
+                placeholder="Email"
+            >
+
+
+            <input
+                type="text"
+                id="studentSkill"
+                placeholder="Skill"
+            >
+
+
+            <input
+                type="text"
+                id="studentAvailability"
+                placeholder="Availability"
+            >
+
+
+            <button
+                onclick="addStudent()">
+
+                Add Student
+
+            </button>
+
+        </div>
+
+
+        <!-- STUDENT LIST -->
+
+        <div
+            id="studentList"
+            class="card-grid">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROJECTS ================= -->
+
+    <section
+        class="section"
+        id="projects">
+
+        <div class="section-header">
+
+            <h2>
+                Projects
+            </h2>
+
+            <p>
+                Discover projects and find the
+                right team members.
+            </p>
+
+        </div>
+
+
+        <!-- CREATE PROJECT -->
+
+        <div class="form-card">
+
+            <h3>
+                Create New Project
+            </h3>
+
+
+            <input
+                type="text"
+                id="projectTitle"
+                placeholder="Project Title"
+            >
+
+
+            <textarea
+                id="projectDescription"
+                placeholder="Project Description"></textarea>
+
+
+            <input
+                type="text"
+                id="projectSkill"
+                placeholder="Required Skill"
+            >
+
+
+            <input
+                type="number"
+                id="projectCreatedBy"
+                placeholder="Created By - Student ID"
+            >
+
+
+            <button
+                onclick="addProject()">
+
+                Create Project
+
+            </button>
+
+        </div>
+
+
+        <!-- PROJECT LIST -->
+
+        <div
+            id="projectList"
+            class="card-grid">
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            Project Team Finder
+        </p>
+
+        <p>
+            Java + SQLite + JavaScript
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="/script.js"></script>
+
+</body>
+
+</html>
