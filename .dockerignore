@@ -1,0 +1,6 @@
+.git
+.vscode
+out
+*.db
+*.sqlite
+*.sqlite3

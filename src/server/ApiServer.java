@@ -21,7 +21,6 @@ public class ApiServer {
     private static Path frontendDirectory;
     private static String stylesheetName;
 
-
     // =====================================================
     // MAIN
     // =====================================================
@@ -36,13 +35,17 @@ public class ApiServer {
                         ? "style.css"
                         : "styles.css";
 
+        // Render provides PORT environment variable.
+        // Local computer will use 8080.
+        int port = Integer.parseInt(
+                System.getenv().getOrDefault("PORT", "8080")
+        );
 
         HttpServer server =
                 HttpServer.create(
-                        new InetSocketAddress(8080),
+                        new InetSocketAddress("0.0.0.0", port),
                         0
                 );
-
 
         // =================================================
         // FRONTEND
@@ -52,7 +55,6 @@ public class ApiServer {
                 "/",
                 ApiServer::handleFrontend
         );
-
 
         // =================================================
         // APIs
@@ -73,20 +75,14 @@ public class ApiServer {
                 ApiServer::handleProjects
         );
 
-
         server.setExecutor(null);
-
 
         System.out.println(
                 "Java Backend Server Started!"
         );
 
         System.out.println(
-                "Project Team Finder:"
-        );
-
-        System.out.println(
-                "http://localhost:8080"
+                "Server running on port: " + port
         );
 
         System.out.println(
@@ -94,10 +90,8 @@ public class ApiServer {
                         + frontendDirectory.toAbsolutePath()
         );
 
-
         server.start();
     }
-
 
     // =====================================================
     // FIND FRONTEND
@@ -131,12 +125,10 @@ public class ApiServer {
             );
         }
 
-
         Path[] searchLocations = {
                 workingDirectory,
                 classDirectory
         };
-
 
         for (Path location : searchLocations) {
 
@@ -145,11 +137,7 @@ public class ApiServer {
                             ? location
                             : location.getParent();
 
-
             while (root != null) {
-
-                // Correct folder name = frontend
-                // forntend also kept as backup
 
                 for (
                         String directoryName :
@@ -161,7 +149,6 @@ public class ApiServer {
 
                     Path candidate =
                             root.resolve(directoryName);
-
 
                     if (
                             Files.isRegularFile(
@@ -175,18 +162,15 @@ public class ApiServer {
                     }
                 }
 
-
                 root =
                         root.getParent();
             }
         }
 
-
         throw new IOException(
                 "Could not find frontend/index.html."
         );
     }
-
 
     // =====================================================
     // FRONTEND
@@ -200,15 +184,11 @@ public class ApiServer {
                 exchange.getRequestURI()
                         .getPath();
 
-
         if (path.equals("/")) {
-
             path = "/index.html";
         }
 
-
         Path filePath;
-
 
         switch (path) {
 
@@ -220,7 +200,6 @@ public class ApiServer {
 
                 break;
 
-
             case "/style.css":
 
                 filePath =
@@ -229,7 +208,6 @@ public class ApiServer {
 
                 break;
 
-
             case "/script.js":
 
                 filePath =
@@ -237,7 +215,6 @@ public class ApiServer {
                                 .resolve("script.js");
 
                 break;
-
 
             default:
 
@@ -250,7 +227,6 @@ public class ApiServer {
                 return;
         }
 
-
         System.out.println(
                 "Request: " + path
         );
@@ -259,7 +235,6 @@ public class ApiServer {
                 "File: "
                         + filePath.toAbsolutePath()
         );
-
 
         if (!Files.exists(filePath)) {
 
@@ -273,10 +248,8 @@ public class ApiServer {
             return;
         }
 
-
         byte[] data =
                 Files.readAllBytes(filePath);
-
 
         if (path.endsWith(".html")) {
 
@@ -303,12 +276,10 @@ public class ApiServer {
                     );
         }
 
-
         exchange.sendResponseHeaders(
                 200,
                 data.length
         );
-
 
         try (
                 OutputStream output =
@@ -318,7 +289,6 @@ public class ApiServer {
             output.write(data);
         }
     }
-
 
     // =====================================================
     // TEST API
@@ -330,10 +300,8 @@ public class ApiServer {
 
         addCorsHeaders(exchange);
 
-
         String response =
                 "{\"message\":\"Java Backend Connected Successfully!\"}";
-
 
         sendJson(
                 exchange,
@@ -341,7 +309,6 @@ public class ApiServer {
                 response
         );
     }
-
 
     // =====================================================
     // STUDENTS API
@@ -353,17 +320,14 @@ public class ApiServer {
 
         addCorsHeaders(exchange);
 
-
         String method =
                 exchange.getRequestMethod();
-
 
         StudentDAO studentDAO =
                 new StudentDAO();
 
-
         // =================================================
-        // GET - VIEW ALL STUDENTS
+        // GET
         // =================================================
 
         if (method.equalsIgnoreCase("GET")) {
@@ -371,13 +335,10 @@ public class ApiServer {
             List<Student> students =
                     studentDAO.getAllStudents();
 
-
             StringBuilder json =
                     new StringBuilder();
 
-
             json.append("[");
-
 
             for (
                     int i = 0;
@@ -388,13 +349,10 @@ public class ApiServer {
                 Student student =
                         students.get(i);
 
-
                 json.append("{")
-
                         .append("\"id\":")
                         .append(student.getId())
                         .append(",")
-
                         .append("\"name\":\"")
                         .append(
                                 escapeJson(
@@ -402,7 +360,6 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"email\":\"")
                         .append(
                                 escapeJson(
@@ -410,7 +367,6 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"skill\":\"")
                         .append(
                                 escapeJson(
@@ -418,7 +374,6 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"availability\":\"")
                         .append(
                                 escapeJson(
@@ -426,22 +381,17 @@ public class ApiServer {
                                 )
                         )
                         .append("\"")
-
                         .append("}");
-
 
                 if (
                         i <
                                 students.size() - 1
                 ) {
-
                     json.append(",");
                 }
             }
 
-
             json.append("]");
-
 
             sendJson(
                     exchange,
@@ -449,13 +399,11 @@ public class ApiServer {
                     json.toString()
             );
 
-
             return;
         }
 
-
         // =================================================
-        // POST - ADD STUDENT
+        // POST
         // =================================================
 
         if (method.equalsIgnoreCase("POST")) {
@@ -467,13 +415,11 @@ public class ApiServer {
                             StandardCharsets.UTF_8
                     );
 
-
             System.out.println(
                     "POST Student Data:"
             );
 
             System.out.println(body);
-
 
             String name =
                     getJsonValue(
@@ -481,13 +427,11 @@ public class ApiServer {
                             "name"
                     );
 
-
             String email =
                     getJsonValue(
                             body,
                             "email"
                     );
-
 
             String skill =
                     getJsonValue(
@@ -495,13 +439,11 @@ public class ApiServer {
                             "skill"
                     );
 
-
             String availability =
                     getJsonValue(
                             body,
                             "availability"
                     );
-
 
             if (
                     name == null ||
@@ -517,7 +459,6 @@ public class ApiServer {
                 return;
             }
 
-
             Student student =
                     new Student(
                             name,
@@ -526,9 +467,7 @@ public class ApiServer {
                             availability
                     );
 
-
             studentDAO.addStudent(student);
-
 
             sendJson(
                     exchange,
@@ -536,13 +475,11 @@ public class ApiServer {
                     "{\"message\":\"Student added successfully!\"}"
             );
 
-
             return;
         }
 
-
         // =================================================
-        // PUT - UPDATE STUDENT
+        // PUT
         // =================================================
 
         if (method.equalsIgnoreCase("PUT")) {
@@ -554,13 +491,11 @@ public class ApiServer {
                             StandardCharsets.UTF_8
                     );
 
-
             System.out.println(
                     "PUT Student Data:"
             );
 
             System.out.println(body);
-
 
             String idText =
                     getJsonValue(
@@ -568,13 +503,11 @@ public class ApiServer {
                             "id"
                     );
 
-
             String name =
                     getJsonValue(
                             body,
                             "name"
                     );
-
 
             String email =
                     getJsonValue(
@@ -582,20 +515,17 @@ public class ApiServer {
                             "email"
                     );
 
-
             String skill =
                     getJsonValue(
                             body,
                             "skill"
                     );
 
-
             String availability =
                     getJsonValue(
                             body,
                             "availability"
                     );
-
 
             if (
                     idText == null ||
@@ -611,9 +541,7 @@ public class ApiServer {
                 return;
             }
 
-
             int id;
-
 
             try {
 
@@ -630,7 +558,6 @@ public class ApiServer {
 
                 return;
             }
-
 
             if (
                     name == null ||
@@ -646,7 +573,6 @@ public class ApiServer {
                 return;
             }
 
-
             Student student =
                     new Student(
                             id,
@@ -656,9 +582,7 @@ public class ApiServer {
                             availability
                     );
 
-
             studentDAO.updateStudent(student);
-
 
             sendJson(
                     exchange,
@@ -666,13 +590,11 @@ public class ApiServer {
                     "{\"message\":\"Student updated successfully!\"}"
             );
 
-
             return;
         }
 
-
         // =================================================
-        // DELETE - DELETE STUDENT
+        // DELETE
         // =================================================
 
         if (method.equalsIgnoreCase("DELETE")) {
@@ -684,20 +606,17 @@ public class ApiServer {
                             StandardCharsets.UTF_8
                     );
 
-
             System.out.println(
                     "DELETE Student Data:"
             );
 
             System.out.println(body);
 
-
             String idText =
                     getJsonValue(
                             body,
                             "id"
                     );
-
 
             if (
                     idText == null ||
@@ -713,9 +632,7 @@ public class ApiServer {
                 return;
             }
 
-
             int id;
-
 
             try {
 
@@ -733,9 +650,7 @@ public class ApiServer {
                 return;
             }
 
-
             studentDAO.deleteStudent(id);
-
 
             sendJson(
                     exchange,
@@ -743,10 +658,8 @@ public class ApiServer {
                     "{\"message\":\"Student deleted successfully!\"}"
             );
 
-
             return;
         }
-
 
         // =================================================
         // OPTIONS
@@ -762,18 +675,12 @@ public class ApiServer {
             return;
         }
 
-
-        // =================================================
-        // INVALID METHOD
-        // =================================================
-
         sendJson(
                 exchange,
                 405,
                 "{\"error\":\"Method not allowed\"}"
         );
     }
-
 
     // =====================================================
     // PROJECTS API
@@ -785,17 +692,14 @@ public class ApiServer {
 
         addCorsHeaders(exchange);
 
-
         String method =
                 exchange.getRequestMethod();
-
 
         ProjectDAO projectDAO =
                 new ProjectDAO();
 
-
         // =================================================
-        // GET - VIEW ALL PROJECTS
+        // GET
         // =================================================
 
         if (method.equalsIgnoreCase("GET")) {
@@ -803,13 +707,10 @@ public class ApiServer {
             List<Project> projects =
                     projectDAO.getAllProjects();
 
-
             StringBuilder json =
                     new StringBuilder();
 
-
             json.append("[");
-
 
             for (
                     int i = 0;
@@ -820,13 +721,10 @@ public class ApiServer {
                 Project project =
                         projects.get(i);
 
-
                 json.append("{")
-
                         .append("\"id\":")
                         .append(project.getId())
                         .append(",")
-
                         .append("\"title\":\"")
                         .append(
                                 escapeJson(
@@ -834,7 +732,6 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"description\":\"")
                         .append(
                                 escapeJson(
@@ -842,7 +739,6 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"requiredSkill\":\"")
                         .append(
                                 escapeJson(
@@ -850,12 +746,9 @@ public class ApiServer {
                                 )
                         )
                         .append("\",")
-
                         .append("\"createdBy\":")
                         .append(project.getCreatedBy())
-
                         .append("}");
-
 
                 if (
                         i <
@@ -866,9 +759,7 @@ public class ApiServer {
                 }
             }
 
-
             json.append("]");
-
 
             sendJson(
                     exchange,
@@ -876,13 +767,11 @@ public class ApiServer {
                     json.toString()
             );
 
-
             return;
         }
 
-
         // =================================================
-        // POST - ADD NEW PROJECT
+        // POST
         // =================================================
 
         if (method.equalsIgnoreCase("POST")) {
@@ -894,13 +783,11 @@ public class ApiServer {
                             StandardCharsets.UTF_8
                     );
 
-
             System.out.println(
                     "POST Project Data:"
             );
 
             System.out.println(body);
-
 
             String title =
                     getJsonValue(
@@ -908,13 +795,11 @@ public class ApiServer {
                             "title"
                     );
 
-
             String description =
                     getJsonValue(
                             body,
                             "description"
                     );
-
 
             String requiredSkill =
                     getJsonValue(
@@ -922,13 +807,11 @@ public class ApiServer {
                             "requiredSkill"
                     );
 
-
             String createdByText =
                     getJsonValue(
                             body,
                             "createdBy"
                     );
-
 
             if (
                     title == null ||
@@ -944,7 +827,6 @@ public class ApiServer {
                 return;
             }
 
-
             if (
                     createdByText == null ||
                             createdByText.isEmpty()
@@ -959,9 +841,7 @@ public class ApiServer {
                 return;
             }
 
-
             int createdBy;
-
 
             try {
 
@@ -981,7 +861,6 @@ public class ApiServer {
                 return;
             }
 
-
             Project project =
                     new Project(
                             title,
@@ -990,9 +869,7 @@ public class ApiServer {
                             createdBy
                     );
 
-
             projectDAO.addProject(project);
-
 
             sendJson(
                     exchange,
@@ -1000,10 +877,8 @@ public class ApiServer {
                     "{\"message\":\"Project added successfully!\"}"
             );
 
-
             return;
         }
-
 
         // =================================================
         // OPTIONS
@@ -1019,18 +894,12 @@ public class ApiServer {
             return;
         }
 
-
-        // =================================================
-        // INVALID METHOD
-        // =================================================
-
         sendJson(
                 exchange,
                 405,
                 "{\"error\":\"Method not allowed\"}"
         );
     }
-
 
     // =====================================================
     // JSON VALUE READER
@@ -1043,16 +912,12 @@ public class ApiServer {
         String search =
                 "\"" + key + "\"";
 
-
         int keyIndex =
                 json.indexOf(search);
 
-
         if (keyIndex == -1) {
-
             return null;
         }
-
 
         int colonIndex =
                 json.indexOf(
@@ -1060,12 +925,9 @@ public class ApiServer {
                         keyIndex
                 );
 
-
         if (colonIndex == -1) {
-
             return null;
         }
-
 
         int firstQuote =
                 json.indexOf(
@@ -1073,12 +935,9 @@ public class ApiServer {
                         colonIndex
                 );
 
-
         if (firstQuote == -1) {
-
             return null;
         }
-
 
         int secondQuote =
                 json.indexOf(
@@ -1086,19 +945,15 @@ public class ApiServer {
                         firstQuote + 1
                 );
 
-
         if (secondQuote == -1) {
-
             return null;
         }
-
 
         return json.substring(
                 firstQuote + 1,
                 secondQuote
         );
     }
-
 
     // =====================================================
     // JSON ESCAPE
@@ -1108,10 +963,8 @@ public class ApiServer {
             String value) {
 
         if (value == null) {
-
             return "";
         }
-
 
         return value
                 .replace(
@@ -1132,7 +985,6 @@ public class ApiServer {
                 );
     }
 
-
     // =====================================================
     // CORS
     // =====================================================
@@ -1146,13 +998,11 @@ public class ApiServer {
                         "*"
                 );
 
-
         exchange.getResponseHeaders()
                 .set(
                         "Access-Control-Allow-Methods",
                         "GET, POST, PUT, DELETE, OPTIONS"
                 );
-
 
         exchange.getResponseHeaders()
                 .set(
@@ -1160,7 +1010,6 @@ public class ApiServer {
                         "Content-Type"
                 );
     }
-
 
     // =====================================================
     // JSON RESPONSE
@@ -1178,18 +1027,15 @@ public class ApiServer {
                         "application/json; charset=UTF-8"
                 );
 
-
         byte[] bytes =
                 response.getBytes(
                         StandardCharsets.UTF_8
                 );
 
-
         exchange.sendResponseHeaders(
                 statusCode,
                 bytes.length
         );
-
 
         try (
                 OutputStream output =
@@ -1199,7 +1045,6 @@ public class ApiServer {
             output.write(bytes);
         }
     }
-
 
     // =====================================================
     // NORMAL RESPONSE
@@ -1216,12 +1061,10 @@ public class ApiServer {
                         StandardCharsets.UTF_8
                 );
 
-
         exchange.sendResponseHeaders(
                 statusCode,
                 bytes.length
         );
-
 
         try (
                 OutputStream output =
