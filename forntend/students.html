@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>Students | Project Team Finder</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body data-page="students">
+    <header class="site-header">
+        <a class="brand" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/index.html">Dashboard</a>
+            <a href="/find-team.html">Find Teammates</a>
+            <a class="active" aria-current="page" href="/students.html">Students</a>
+            <a href="/projects.html">Projects</a>
+            <a class="nav-cta" href="/post-project.html">Post Project</a>
+        </nav>
+    </header>
+    <main class="page-shell page-main">
+        <section class="page-intro page-intro-row">
+            <div><p class="eyebrow"><span class="eyebrow-dot"></span> The people behind the ideas</p><h1>Student <span>directory.</span></h1><p>Discover skills and connect with students across your campus.</p></div>
+            <a class="button button-primary" href="/find-team.html">Find Teammates <span aria-hidden="true">→</span></a>
+        </section>
+        <section class="filter-panel" aria-label="Student directory filters">
+            <form id="student-filter-form" class="directory-filters">
+                <label class="field search-field"><span>Search students</span><input id="student-query" type="search" placeholder="Name, email, skill…" autocomplete="off"></label>
+                <label class="field"><span>Skill</span><input id="student-skill-filter" type="search" list="student-skill-suggestions" placeholder="Any skill" autocomplete="off"></label>
+                <label class="field"><span>Availability</span><input id="student-availability-filter" type="search" list="availability-suggestions" placeholder="Any availability" autocomplete="off"></label>
+                <datalist id="student-skill-suggestions"></datalist>
+                <datalist id="availability-suggestions"><option value="Morning"><option value="Afternoon"><option value="Evening"><option value="Weekends"><option value="Full Time"><option value="Part Time"><option value="Flexible"></datalist>
+                <button class="button button-primary" type="submit">Apply filters</button>
+                <button class="button button-quiet" type="reset">Clear</button>
+            </form>
+        </section>
+        <section class="results-section" aria-labelledby="students-title">
+            <div class="section-heading"><div><p class="eyebrow">Community</p><h2 id="students-title">All students</h2></div><span id="student-result-count" class="result-count" aria-live="polite"></span></div>
+            <div id="directory-results" class="card-grid" aria-live="polite"><div class="loading-state">Loading students…</div></div>
+        </section>
+        <details class="manage-panel">
+            <summary>Add a student</summary>
+            <form id="add-student-form" class="entry-form">
+                <label class="field"><span>Name</span><input name="name" required maxlength="120" placeholder="Student name"></label>
+                <label class="field"><span>Email</span><input name="email" type="email" maxlength="200" placeholder="name@example.edu"></label>
+                <label class="field"><span>Skills / languages</span><input name="skill" placeholder="Java, UI design, data science"></label>
+                <label class="field"><span>Availability</span><input name="availability" placeholder="Evenings, weekends"></label>
+                <button class="button button-primary" type="submit">Add student</button>
+            </form>
+            <p class="form-note">Existing student records can be edited or deleted from their cards.</p>
+        </details>
+    </main>
+    <footer class="site-footer"><a class="brand brand-footer" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a><span>Built for students who build together.</span></footer>
+</body>
+</html>

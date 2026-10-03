@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>Find Teammates | Project Team Finder</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body data-page="find-team">
+    <header class="site-header">
+        <a class="brand" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/index.html">Dashboard</a>
+            <a class="active" aria-current="page" href="/find-team.html">Find Teammates</a>
+            <a href="/students.html">Students</a>
+            <a href="/projects.html">Projects</a>
+            <a class="nav-cta" href="/post-project.html">Post Project</a>
+        </nav>
+    </header>
+    <main class="page-shell page-main">
+        <section class="page-intro">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> Find your collaborators</p>
+            <h1>Meet your next <span>teammate.</span></h1>
+            <p>Search students by name, skill, or language and narrow results by availability.</p>
+        </section>
+        <section class="filter-panel" aria-label="Find teammate filters">
+            <form id="team-filter-form" class="filter-form">
+                <label class="field field-wide"><span>Search by name or skill</span><input id="team-query" type="search" placeholder="e.g. Maya, machine learning..." autocomplete="off"></label>
+                <label class="field"><span>Skill</span><input id="team-skill" type="search" list="skill-suggestions" placeholder="Any skill" autocomplete="off"></label>
+                <label class="field"><span>Programming language</span><input id="team-language" type="search" list="skill-suggestions" placeholder="Any language" autocomplete="off"></label>
+                <label class="field"><span>Availability</span><input id="team-availability" type="search" list="availability-suggestions" placeholder="Any availability" autocomplete="off"></label>
+                <datalist id="skill-suggestions"></datalist>
+                <datalist id="availability-suggestions"><option value="Morning"><option value="Afternoon"><option value="Evening"><option value="Weekends"><option value="Full Time"><option value="Part Time"><option value="Flexible"></datalist>
+                <div class="filter-actions"><button class="button button-primary" type="submit">Find Teammates <span aria-hidden="true">→</span></button><button class="button button-quiet" type="reset">Clear filters</button></div>
+            </form>
+        </section>
+        <section class="results-section" aria-labelledby="team-results-title">
+            <div class="section-heading"><div><p class="eyebrow">Student directory</p><h2 id="team-results-title">Potential teammates</h2></div><span id="team-result-count" class="result-count" aria-live="polite"></span></div>
+            <div id="team-results" class="card-grid" aria-live="polite"><div class="loading-state">Loading students…</div></div>
+        </section>
+    </main>
+    <footer class="site-footer"><a class="brand brand-footer" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a><span>Built for students who build together.</span></footer>
+</body>
+</html>

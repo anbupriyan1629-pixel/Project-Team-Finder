@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>Post a Project | Project Team Finder</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body data-page="post-project">
+    <header class="site-header">
+        <a class="brand" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/index.html">Dashboard</a>
+            <a href="/find-team.html">Find Teammates</a>
+            <a href="/students.html">Students</a>
+            <a href="/projects.html">Projects</a>
+            <a class="nav-cta active" aria-current="page" href="/post-project.html">Post Project</a>
+        </nav>
+    </header>
+    <main class="page-shell page-main">
+        <section class="page-intro">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> Bring your idea to life</p>
+            <h1>Start something <span>together.</span></h1>
+            <p>Share your project with the campus community and find people ready to build.</p>
+        </section>
+        <section class="post-layout">
+            <form id="post-project-form" class="project-form">
+                <div class="form-heading"><span class="form-heading-icon" aria-hidden="true">＋</span><div><h2>Project details</h2><p>Tell students what you are working on.</p></div></div>
+                <label class="field"><span>Project title <b>*</b></span><input name="title" required maxlength="160" placeholder="e.g. Campus Food Share"></label>
+                <label class="field"><span>Description</span><textarea name="description" rows="5" maxlength="2000" placeholder="What are you building, and why?"></textarea></label>
+                <div class="form-row">
+                    <label class="field"><span>Required skills</span><input name="requiredSkill" maxlength="300" placeholder="UI design, database, research"></label>
+                    <label class="field"><span>Programming language</span><input name="programmingLanguage" list="language-suggestions" placeholder="Java, Python, any language"></label>
+                </div>
+                <label class="field"><span>Availability needed</span><input name="availability" placeholder="Evenings, weekends, flexible"></label>
+                <label class="field"><span>Created by (student ID) <b>*</b></span><input name="createdBy" type="number" min="1" step="1" required placeholder="Enter your student ID"></label>
+                <p class="form-note">Your project will use the existing project API. Language is included with required skills and availability is included in the description.</p>
+                <p id="post-project-status" class="status-message" role="status"></p>
+                <button class="button button-primary submit-project" type="submit">Publish project <span aria-hidden="true">→</span></button>
+            </form>
+            <aside class="post-aside"><span class="aside-spark" aria-hidden="true">✦</span><p class="eyebrow">Good projects invite good teams</p><h2>Make the first step easy.</h2><p>Describe the challenge, the skills that would help, and the kind of time commitment you have in mind.</p><a class="text-link" href="/projects.html">Explore existing projects <span aria-hidden="true">→</span></a></aside>
+        </section>
+    </main>
+    <footer class="site-footer"><a class="brand brand-footer" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a><span>Built for students who build together.</span></footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>Projects | Project Team Finder</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body data-page="projects">
+    <header class="site-header">
+        <a class="brand" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/index.html">Dashboard</a>
+            <a href="/find-team.html">Find Teammates</a>
+            <a href="/students.html">Students</a>
+            <a class="active" aria-current="page" href="/projects.html">Projects</a>
+            <a class="nav-cta" href="/post-project.html">Post Project</a>
+        </nav>
+    </header>
+    <main class="page-shell page-main">
+        <section class="page-intro page-intro-row">
+            <div><p class="eyebrow"><span class="eyebrow-dot"></span> Ideas looking for a team</p><h1>Explore campus <span>projects.</span></h1><p>Find a project that matches your interests and skills.</p></div>
+            <a class="button button-primary" href="/post-project.html">Post a Project <span aria-hidden="true">＋</span></a>
+        </section>
+        <section class="filter-panel" aria-label="Project search">
+            <form id="project-filter-form" class="directory-filters">
+                <label class="field search-field"><span>Search projects</span><input id="project-query" type="search" placeholder="Title or description…" autocomplete="off"></label>
+                <label class="field"><span>Required skill</span><input id="project-skill-filter" type="search" list="project-skill-suggestions" placeholder="Any skill" autocomplete="off"></label>
+                <datalist id="project-skill-suggestions"></datalist>
+                <button class="button button-primary" type="submit">Search projects</button>
+                <button class="button button-quiet" type="reset">Clear</button>
+            </form>
+        </section>
+        <section class="results-section" aria-labelledby="projects-title">
+            <div class="section-heading"><div><p class="eyebrow">Project marketplace</p><h2 id="projects-title">Open projects</h2></div><span id="project-result-count" class="result-count" aria-live="polite"></span></div>
+            <div id="project-results" class="card-grid" aria-live="polite"><div class="loading-state">Loading projects…</div></div>
+        </section>
+    </main>
+    <dialog id="project-dialog" class="project-dialog">
+        <form method="dialog"><button class="dialog-close" aria-label="Close project details">×</button></form>
+        <div id="project-dialog-content"></div>
+        <a id="project-dialog-team-link" class="button button-primary" href="/find-team.html">Find teammates <span aria-hidden="true">→</span></a>
+    </dialog>
+    <footer class="site-footer"><a class="brand brand-footer" href="/index.html"><span class="brand-mark">PT</span><span>Project Team Finder</span></a><span>Built for students who build together.</span></footer>
+</body>
+</html>

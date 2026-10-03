@@ -188,44 +188,23 @@ public class ApiServer {
             path = "/index.html";
         }
 
-        Path filePath;
+        String frontendFile = switch (path) {
+            case "/index.html",
+                    "/find-team.html",
+                    "/students.html",
+                    "/projects.html",
+                    "/post-project.html" -> path.substring(1);
+            case "/style.css", "/styles.css" -> stylesheetName;
+            case "/script.js" -> "script.js";
+            default -> null;
+        };
 
-        switch (path) {
-
-            case "/index.html":
-
-                filePath =
-                        frontendDirectory
-                                .resolve("index.html");
-
-                break;
-
-            case "/style.css":
-
-                filePath =
-                        frontendDirectory
-                                .resolve(stylesheetName);
-
-                break;
-
-            case "/script.js":
-
-                filePath =
-                        frontendDirectory
-                                .resolve("script.js");
-
-                break;
-
-            default:
-
-                sendResponse(
-                        exchange,
-                        404,
-                        "Page not found"
-                );
-
-                return;
+        if (frontendFile == null) {
+            sendResponse(exchange, 404, "Page not found");
+            return;
         }
+
+        Path filePath = frontendDirectory.resolve(frontendFile);
 
         System.out.println(
                 "Request: " + path
