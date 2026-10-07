@@ -29,6 +29,7 @@ public class DatabaseSetup {
         try (Connection connection = DatabaseConnection.connect();
              Statement statement = connection.createStatement()) {
 
+            connection.setAutoCommit(true);
             statement.execute(studentsTable);
             statement.execute(projectsTable);
 

@@ -4,6 +4,7 @@ import database.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Student;
@@ -18,14 +19,25 @@ public class StudentDAO {
         try (Connection connection = DatabaseConnection.connect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
+            if (connection == null) {
+                throw new SQLException("Database connection is null.");
+            }
+
+            connection.setAutoCommit(false);
+
             statement.setString(1, student.getName());
             statement.setString(2, student.getEmail());
             statement.setString(3, student.getSkill());
             statement.setString(4, student.getAvailability());
 
-            statement.executeUpdate();
+            int rowsAffected = statement.executeUpdate();
+            connection.commit();
 
-            System.out.println("Student added successfully!");
+            if (rowsAffected > 0) {
+                System.out.println("Student added successfully!");
+            } else {
+                System.out.println("Student insert did not affect any rows.");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
